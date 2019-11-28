@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import ApolloClient from 'apollo-boost';
+import ApolloClient, { InMemoryCache } from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 import {
     createStore,
@@ -19,6 +19,7 @@ import "./index.css";
 const rootElement = document.getElementById("root");
 const client = new ApolloClient({
     uri: 'http://localhost:4000',
+    cache: new InMemoryCache(),
 });
 const store = createStore(
     rootReducer,
