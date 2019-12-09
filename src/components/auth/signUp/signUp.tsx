@@ -1,69 +1,127 @@
 import React, { useState, useEffect } from 'react';
-import { gql, ApolloError } from 'apollo-boost';
-import { useApolloClient, useMutation } from 'react-apollo';
-import { ISignUpCredentials } from '../../../types/store/actionsCreators';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import isemail from 'isemail';
 
-interface Test {
-    isLoggedIn: boolean;
-    setUserData: React.Dispatch<React.SetStateAction<ISignUpCredentials>>;
-}
+const useStyles = makeStyles((theme: Theme) => createStyles({
+    formWrapper: {
+        background: '#fff',
+        position: 'fixed',
+        padding: 15,
+        left: '50%',
+        top: '50%',
+        transform: `translate(-50%, -50%)`,
+        boxShadow: `0 4px 8px 0 rgba(0, 0, 0, 0.2)`,
+        textAlign: 'center',
+    },
+    textField: {
+        marginBottom: 30,
+        display: 'block',
+        width: 240,
+        height: 40,
+    },
+    title: {
+        color: theme.palette.primary.main,
+        textAlign: 'center',
+    },
+    button: {
+        marginTop: 20,
+    },
+}));
 
-const useSignUp = ({ email, password, userName }: ISignUpCredentials): Test => {
-    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-    const [userData, setUserData] = useState<ISignUpCredentials>({
-        email,
-        password,
-        userName,
-    });
+const SignUpModal = () => {
+    const clasess = useStyles();
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [repeatedPassword, setRepeatedPassword] = useState<string>('');
 
-    const client = useApolloClient();
-    const mutation = gql`mutation SignUp($email: String!, $password: String!, $userName: String) {
-        signup(email: $email, password: $password, userName: $userName) {
-            id,
-            email,
-            userName,
+    const [emailInvalid, setEmailInvalid] = useState<boolean>(false);
+    const [passwordInvalid, setPasswordInvalid] = useState<boolean>(false);
+    const [repeatedPasswordInvalid, setRepeatedPasswordInvalid] = useState<boolean>(false);
+
+    const [emailInvalidMessage, setEmailInvalidMessage] = useState<string>('');
+    const [passwordInvalidMessage, setPasswordInvalidMessage] = useState<string>('Password must be minimum 8 chars.');
+    const [repeatedPasswordInvalidMessage, setRepeatedPasswordInvalidMessage] = useState<string>('Enter the same password');
+
+    const send = () => {
+        if (!isemail.validate(email)) {
+            setEmailInvalid(true);
+            setEmailInvalidMessage('Invalid email pattern!');
         }
-    }`;
+        if (password.length < 8) {
+            setPasswordInvalid(true);
+            setPasswordInvalidMessage('To short password');
+        }
+        if (password !== repeatedPassword) {
+            setRepeatedPasswordInvalid(true);
+            setRepeatedPasswordInvalidMessage('Passwords are different');
+        }
+    };
 
-    const [signUp, { loading, error, data }] = useMutation(mutation, {
-        variables: userData,
-    });
-
-    useEffect(() => {
-        const handleResponseStatus = (loading: boolean, error: ApolloError, data: any) => {
-            if (!error) {
-                client.writeData({ data: { isLoggedIn, userData: data } });
-                setIsLoggedIn(true);
-            }
-            console.log(client);
-        };
-        console.log(1);
-        signUp();
-        return () => {
-            handleResponseStatus(loading, error, data);
-        };
-    },        [userData.email, userData.password, userData.userName, setIsLoggedIn]);
-
-    return { isLoggedIn, setUserData };
-};
-
-const SignUp = () => {
-    const [email, setEmail] = useState('emaila@gmail.com');
-    const [password, setPassword] = useState('remboa123');
-
-    const { isLoggedIn, setUserData } = useSignUp({ email: '', password: '', userName: 'email' });
     return (
-        <div>
-            <input value={email} onChange={event => setEmail(event.target.value)} />
-            <input value={password} onChange={event => setPassword(event.target.value)} />
-            <button onClick={() => {
-                setUserData({ email, password, userName: email });
-            }}
+        <div className={clasess.formWrapper}>
+            <Typography
+                color="secondary"
+                variant="h4"
+                component="h1"
+                className={clasess.title}
             >
                 Sign Up
-            </button>
+            </Typography>
+            <TextField
+                value={email}
+                onChange={event => {
+                    setEmail(event.target.value);
+                    setEmailInvalid(false);
+                    setEmailInvalidMessage('');
+                }}
+                label="Email"
+                color="secondary"
+                variant="standard"
+                error={emailInvalid}
+                helperText={emailInvalidMessage}
+                className={clasess.textField}
+            />
+            <TextField
+                value={password}
+                onChange={event => {
+                    setPassword(event.target.value);
+                    setPasswordInvalid(false);
+                    setPasswordInvalidMessage('Password must be minimum 8 chars.');
+                }}
+                label="Password"
+                color="secondary"
+                variant="standard"
+                error={passwordInvalid}
+                helperText={passwordInvalidMessage}
+                className={clasess.textField}
+            />
+            <TextField
+                value={repeatedPassword}
+                onChange={event => {
+                    setRepeatedPassword(event.target.value);
+                    setRepeatedPasswordInvalid(false);
+                    setRepeatedPasswordInvalidMessage('Enter the same password');
+                }}
+                label="Repeat password"
+                color="secondary"
+                variant="standard"
+                error={repeatedPasswordInvalid}
+                helperText={repeatedPasswordInvalidMessage}
+                className={clasess.textField}
+            />
+            <Button
+                className={clasess.button}
+                variant="contained"
+                color="secondary"
+                onClick={send}
+            >
+                Sign Up
+            </Button>
         </div>
     );
 };
 
-export default SignUp;
+export default SignUpModal;
