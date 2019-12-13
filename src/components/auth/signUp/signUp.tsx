@@ -1,9 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useMutation } from 'react-apollo';
+import CircularProgress from '@material-ui/core/CircularProgress'; 
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import isemail from 'isemail';
+
+import { SIGN_UP } from '../../../queries';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
     formWrapper: {
@@ -33,10 +37,14 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 
 const SignUpModal = () => {
     const clasess = useStyles();
+
+    const [signUp, { data, loading, error }] = useMutation(SIGN_UP);
+
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [repeatedPassword, setRepeatedPassword] = useState<string>('');
 
+    const [invalidFields, setInvalidFields] = useState<boolean>(false);
     const [emailInvalid, setEmailInvalid] = useState<boolean>(false);
     const [passwordInvalid, setPasswordInvalid] = useState<boolean>(false);
     const [repeatedPasswordInvalid, setRepeatedPasswordInvalid] = useState<boolean>(false);
@@ -45,18 +53,40 @@ const SignUpModal = () => {
     const [passwordInvalidMessage, setPasswordInvalidMessage] = useState<string>('Password must be minimum 8 chars.');
     const [repeatedPasswordInvalidMessage, setRepeatedPasswordInvalidMessage] = useState<string>('Enter the same password');
 
+    if (data) {
+        console.log(data);
+    }
+    if (loading) {
+        console.log('Loading');
+    }
+    if (error) {
+        console.log(error.graphQLErrors[0]);
+    }
+
     const send = () => {
         if (!isemail.validate(email)) {
             setEmailInvalid(true);
             setEmailInvalidMessage('Invalid email pattern!');
+            setInvalidFields(true);
         }
         if (password.length < 8) {
             setPasswordInvalid(true);
             setPasswordInvalidMessage('To short password');
+            setInvalidFields(true);
         }
         if (password !== repeatedPassword) {
             setRepeatedPasswordInvalid(true);
             setRepeatedPasswordInvalidMessage('Passwords are different');
+            setInvalidFields(true);
+        }
+
+        if (!invalidFields) {
+            signUp({
+                variables: {
+                    email,
+                    password,
+                },
+            });
         }
     };
 
@@ -76,9 +106,11 @@ const SignUpModal = () => {
                     setEmail(event.target.value);
                     setEmailInvalid(false);
                     setEmailInvalidMessage('');
+                    setInvalidFields(false);
                 }}
+                type="email"
                 label="Email"
-                color="secondary"
+                color="primary"
                 variant="standard"
                 error={emailInvalid}
                 helperText={emailInvalidMessage}
@@ -90,9 +122,11 @@ const SignUpModal = () => {
                     setPassword(event.target.value);
                     setPasswordInvalid(false);
                     setPasswordInvalidMessage('Password must be minimum 8 chars.');
+                    setInvalidFields(false);
                 }}
+                type="password"
                 label="Password"
-                color="secondary"
+                color="primary"
                 variant="standard"
                 error={passwordInvalid}
                 helperText={passwordInvalidMessage}
@@ -104,21 +138,25 @@ const SignUpModal = () => {
                     setRepeatedPassword(event.target.value);
                     setRepeatedPasswordInvalid(false);
                     setRepeatedPasswordInvalidMessage('Enter the same password');
+                    setInvalidFields(false);
                 }}
+                type="password"
                 label="Repeat password"
-                color="secondary"
+                color="primary"
                 variant="standard"
                 error={repeatedPasswordInvalid}
                 helperText={repeatedPasswordInvalidMessage}
                 className={clasess.textField}
             />
             <Button
+                disabled={loading}
+                variant={loading ? 'outlined' : 'contained'}
                 className={clasess.button}
-                variant="contained"
-                color="secondary"
+                color="primary"
                 onClick={send}
             >
                 Sign Up
+                {loading && <CircularProgress color="primary" size="30px"/>}
             </Button>
         </div>
     );
