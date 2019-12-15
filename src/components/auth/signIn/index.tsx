@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useMutation } from 'react-apollo';
-import CircularProgress from '@material-ui/core/CircularProgress'; 
+import CircularProgress from '@material-ui/core/CircularProgress';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import isemail from 'isemail';
 
-import { SIGN_UP } from '../../../queries';
+import { SIGN_IN } from '../../../queries';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
     formWrapper: {
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
         textAlign: 'center',
     },
     textField: {
-        marginBottom: 30,
+        marginBottom: 40,
         display: 'block',
         width: 240,
         height: 40,
@@ -33,35 +33,40 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     button: {
         marginTop: 20,
     },
+    circularProgress: {
+        marginLeft: 10,
+    },
 }));
 
-const SignUpModal = () => {
+const SignInModal = () => {
     const clasess = useStyles();
 
-    const [signUp, { data, loading, error }] = useMutation(SIGN_UP);
+    const [signUp, { data, loading, error }] = useMutation(SIGN_IN, {
+        onError: (err) => {
+            if (err.graphQLErrors[0].message === 'Invalid credentials') {
+                const { invalidCredentials, invalidCredentialsMessages } = err.graphQLErrors[0].extensions;
 
-    const [email, setEmail] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
-    const [repeatedPassword, setRepeatedPassword] = useState<string>('');
+                setEmailInvalid(invalidCredentials.email);
+                setEmailInvalidMessage(invalidCredentialsMessages.email);
+
+                setPasswordInvalid(invalidCredentials.password);
+                setPasswordInvalidMessage(invalidCredentialsMessages.password || passwordInvalidMessage);
+            }
+        },
+        onCompleted: (res) => {
+            console.log(res);
+        },
+    });
+
+    const [email, setEmail] = useState<string>('sasha@gmail.com');
+    const [password, setPassword] = useState<string>('Sasha080701');
 
     const [invalidFields, setInvalidFields] = useState<boolean>(false);
     const [emailInvalid, setEmailInvalid] = useState<boolean>(false);
     const [passwordInvalid, setPasswordInvalid] = useState<boolean>(false);
-    const [repeatedPasswordInvalid, setRepeatedPasswordInvalid] = useState<boolean>(false);
 
     const [emailInvalidMessage, setEmailInvalidMessage] = useState<string>('');
     const [passwordInvalidMessage, setPasswordInvalidMessage] = useState<string>('Password must be minimum 8 chars.');
-    const [repeatedPasswordInvalidMessage, setRepeatedPasswordInvalidMessage] = useState<string>('Enter the same password');
-
-    if (data) {
-        console.log(data);
-    }
-    if (loading) {
-        console.log('Loading');
-    }
-    if (error) {
-        console.log(error.graphQLErrors[0]);
-    }
 
     const send = () => {
         if (!isemail.validate(email)) {
@@ -72,11 +77,6 @@ const SignUpModal = () => {
         if (password.length < 8) {
             setPasswordInvalid(true);
             setPasswordInvalidMessage('To short password');
-            setInvalidFields(true);
-        }
-        if (password !== repeatedPassword) {
-            setRepeatedPasswordInvalid(true);
-            setRepeatedPasswordInvalidMessage('Passwords are different');
             setInvalidFields(true);
         }
 
@@ -98,7 +98,7 @@ const SignUpModal = () => {
                 component="h1"
                 className={clasess.title}
             >
-                Sign Up
+                Sign In
             </Typography>
             <TextField
                 value={email}
@@ -132,22 +132,6 @@ const SignUpModal = () => {
                 helperText={passwordInvalidMessage}
                 className={clasess.textField}
             />
-            <TextField
-                value={repeatedPassword}
-                onChange={event => {
-                    setRepeatedPassword(event.target.value);
-                    setRepeatedPasswordInvalid(false);
-                    setRepeatedPasswordInvalidMessage('Enter the same password');
-                    setInvalidFields(false);
-                }}
-                type="password"
-                label="Repeat password"
-                color="primary"
-                variant="standard"
-                error={repeatedPasswordInvalid}
-                helperText={repeatedPasswordInvalidMessage}
-                className={clasess.textField}
-            />
             <Button
                 disabled={loading}
                 variant={loading ? 'outlined' : 'contained'}
@@ -155,11 +139,15 @@ const SignUpModal = () => {
                 color="primary"
                 onClick={send}
             >
-                Sign Up
-                {loading && <CircularProgress color="primary" size="30px"/>}
+                Sign In
+                {loading && <CircularProgress
+                    className={clasess.circularProgress}
+                    color="primary"
+                    size="30px"
+                />}
             </Button>
         </div>
     );
 };
 
-export default SignUpModal;
+export default SignInModal;
