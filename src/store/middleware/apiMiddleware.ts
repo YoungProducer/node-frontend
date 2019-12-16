@@ -3,35 +3,25 @@ import {
     AnyAction,
     Dispatch,
 } from 'redux';
-import {
-    useMutation,
-    useQuery,
-} from 'react-apollo';
+
+import api from './api';
 
 export default (store: Store) => (next: Dispatch) => (action: AnyAction) => {
     if (!action.meta || action.meta.type !== 'api') {
         return next(action);
     }
 
-    const { reqString, reqType } = action.meta;
+    const { uri, method, payload: { data, onSuccess, onFailure } } = action;
 
-    if (reqType === 'mutation') {
-        const [mutation, { loading, error, data }] = useMutation(reqString, {
-            variables: action.payload,
-        });
-
-        mutation()
-            .then(resp => {
-                console.log(resp);
-                const newAction: AnyAction = action;
-                delete newAction.meta;
-                store.dispatch(newAction);
-            })
-            .catch(error => {
-                console.log(error);
-                const newAction: AnyAction = action;
-                delete newAction.meta;
-                store.dispatch(newAction);
-            });
-    }
+    api.axiosInstance({
+        method,
+        data,
+        url: uri,
+        withCredentials: true,
+    }).then(response => {
+        next(onSuccess(response));
+    }).catch(error => {
+        // next(onFailure(error));
+        console.log(error);
+    });
 };

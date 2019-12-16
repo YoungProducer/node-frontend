@@ -1,13 +1,18 @@
 import { Action } from 'redux';
 
-export type ReqType = 'mutation' | 'query';
+export interface ApiCredentials {
+    onSuccess?: Function;
+    onFailure?: Function;
+}
+
+export type Method = 'post' | 'get' | 'put' | 'delete';
 
 export interface IMeta {
     type: string;
-    reqString: any;
-    reqType: ReqType;
+    uri: string;
+    method: Method;
 }
 
-export interface IAction extends Action {
+export interface IAction extends Action, ApiCredentials {
     meta?: IMeta;
 }

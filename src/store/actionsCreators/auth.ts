@@ -18,32 +18,38 @@ export const createSignUpAction = ({
     email,
     userName,
     password,
+    onSuccess,
+    onFailure,
 }: ISignUpCredentials): ISignUpAction => ({
     type: SIGNUP,
-    payload: { email, userName, password },
+    payload: {
+        onFailure,
+        onSuccess: createSubmitSignUpAction,
+        data: { email, userName, password },
+    },
     meta: {
         type: 'api',
-        reqString: gql`mutation SignUp($email: String!, $password: String!, $userName: String) {
-            signup(email: $email, password: $password, userName: $userName) {
-                id,
-                email,
-                userName,
-            }
-        }`,
-        reqType: 'mutation',
+        uri: 'http://localhost:4000/auth/signup',
+        method: 'post',
     },
 });
 
 export const createSignInAction = ({
     email,
     password,
+    onSuccess,
+    onFailure,
 }: ISignInCredentials): ISignInAction => ({
     type: SIGNIN,
-    payload: { email, password },
+    payload: {
+        onFailure,
+        onSuccess: createSubmitSignInAction,
+        data: { email, password },
+    },
     meta: {
         type: 'api',
-        reqString: '', // Todo: // Complete
-        reqType: 'mutation',
+        uri: 'http://localhost:4000/auth/signin',
+        method: 'post',
     },
 });
 
