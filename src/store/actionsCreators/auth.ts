@@ -4,14 +4,22 @@ import gql from 'graphql-tag';
 import {
     SIGNUP,
     SIGNIN,
-    SUBMIT_SIGNUP,
-    SUBMIT_SIGNIN,
+    ME,
+    REFRESH,
+    SUCCESS_SIGNUP,
+    SUCCESS_SIGNIN,
+    SUCCESS_ME,
+    SUCCESS_REFRESH,
 } from '../actionsTypes/auth';
 import {
-    ISignUpAction,
-    ISignInAction,
-    ISignUpCredentials,
-    ISignInCredentials,
+    SignUpAction,
+    SignInAction,
+    MeAction,
+    RefreshAction,
+    SignUpCredentials,
+    SignInCredentials,
+    MeCredentials,
+    RefreshCredentials,
 } from '../../types/store/actionsCreators';
 
 export const createSignUpAction = ({
@@ -20,7 +28,7 @@ export const createSignUpAction = ({
     password,
     onSuccess,
     onFailure,
-}: ISignUpCredentials): ISignUpAction => ({
+}: SignUpCredentials): SignUpAction => ({
     type: SIGNUP,
     payload: {
         onFailure,
@@ -39,7 +47,7 @@ export const createSignInAction = ({
     password,
     onSuccess,
     onFailure,
-}: ISignInCredentials): ISignInAction => ({
+}: SignInCredentials): SignInAction => ({
     type: SIGNIN,
     payload: {
         onFailure,
@@ -53,10 +61,42 @@ export const createSignInAction = ({
     },
 });
 
+export const createMeAction = ({
+    onFailure,
+    onSuccess,
+}: MeCredentials): MeAction => ({
+    type: ME,
+    payload: {
+        onFailure,
+        onSuccess,
+    },
+    meta: {
+        type: 'api',
+        uri: 'http://localhost:4000/auth/me',
+        method: 'get',
+    },
+});
+
+export const createRefreshAction = ({
+    onFailure,
+    onSuccess,
+}: RefreshCredentials): RefreshAction => ({
+    type: REFRESH,
+    payload: {
+        onFailure,
+        onSuccess,
+    },
+    meta: {
+        type: 'api',
+        uri: 'http://localhost:4000/auth/refresh',
+        method: 'post',
+    },
+});
+
 export const createSubmitSignUpAction = () => ({
-    type: SUBMIT_SIGNUP,
+    type: SUCCESS_SIGNUP,
 });
 
 export const createSubmitSignInAction = () => ({
-    type: SUBMIT_SIGNIN,
+    type: SUCCESS_SIGNIN,
 });

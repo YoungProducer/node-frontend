@@ -1,22 +1,36 @@
 import { IAction, ApiCredentials } from './globalTypes';
 
-export interface ISignUpCredentials extends ApiCredentials {
+export interface SignUpCredentials extends ApiCredentials {
     email: string;
     userName?: string;
     password: string;
 }
 
-export interface ISignInCredentials extends ApiCredentials {
+export interface SignInCredentials extends ApiCredentials {
     email: string;
     password: string;
 }
 
-export interface ISignUpAction extends IAction {
+export interface RefreshCredentials extends ApiCredentials {
+}
+
+export interface MeCredentials extends ApiCredentials {
+}
+
+export interface SignUpAction extends IAction {
     payload: any;
 }
 
-export interface ISignInAction extends IAction {
+export interface SignInAction extends IAction {
     payload: any;
 }
 
-export type AuthActions = ISignUpAction | ISignInAction;
+export interface MeAction extends IAction {
+    payload: any;
+}
+
+export interface RefreshAction extends IAction {
+    payload: any;
+}
+
+export type AuthActions = SignUpAction | SignInAction | MeAction | RefreshAction;

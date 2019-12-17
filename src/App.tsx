@@ -1,11 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Mutation, useQuery } from 'react-apollo';
 
-import { ME } from './queries';
 import Routes from './components/routes';
 
-const App = () => {
+interface IApp {
+    loggedIn: boolean;
+    me: Function;
+    refresh: Function;
+}
+
+const App = ({
+    loggedIn,
+    me,
+    refresh,
+}: IApp) => {
+    useEffect(() => {
+        me({});
+    },        [me]);
     // const [isAuthenticated, setAuthenticated] = useState(false);
     // const { data, loading, error } = useQuery(ME);
 
@@ -25,7 +35,7 @@ const App = () => {
     // });
 
     return(
-        <Routes />
+        <Routes loggedIn={loggedIn} />
     );
 };
 

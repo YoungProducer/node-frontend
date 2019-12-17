@@ -11,7 +11,7 @@ export default (store: Store) => (next: Dispatch) => (action: AnyAction) => {
         return next(action);
     }
 
-    const { uri, method, payload: { data, onSuccess, onFailure } } = action;
+    const { meta: { uri, method }, payload: { data, onSuccess, onFailure } } = action;
 
     api.axiosInstance({
         method,
@@ -19,9 +19,10 @@ export default (store: Store) => (next: Dispatch) => (action: AnyAction) => {
         url: uri,
         withCredentials: true,
     }).then(response => {
-        next(onSuccess(response));
+        console.log(response);
+        return next(onSuccess(response));
     }).catch(error => {
-        // next(onFailure(error));
+        // return next(onFailure(error));
         console.log(error);
     });
 };

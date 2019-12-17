@@ -1,8 +1,12 @@
 import {
     SIGNUP,
     SIGNIN,
-    SUBMIT_SIGNIN,
-    SUBMIT_SIGNUP,
+    ME,
+    REFRESH,
+    SUCCESS_SIGNIN,
+    SUCCESS_SIGNUP,
+    SUCCESS_ME,
+    SUCCESS_REFRESH,
 } from '../actionsTypes/auth';
 
 // Import types
@@ -26,13 +30,26 @@ const HANDLERS: Handlers = {
     [SIGNIN]: (state: AuthInitialState, action: AuthActions) => ({
         ...state,
     }),
-    [SUBMIT_SIGNUP]: (state: AuthInitialState) => ({
+    [ME]: (state: AuthInitialState, action: AuthActions) => ({
+        ...state,
+    }),
+    [REFRESH]: (state: AuthInitialState, action: AuthActions) => ({
+        ...state,
+    }),
+    [SUCCESS_SIGNUP]: (state: AuthInitialState) => ({
         ...state,
         signedUp: true,
     }),
-    [SUBMIT_SIGNIN]: (state: AuthInitialState) => ({
+    [SUCCESS_SIGNIN]: (state: AuthInitialState) => ({
         ...state,
         loggedIn: true,
+    }),
+    [SUCCESS_ME]: (state: AuthInitialState) => ({
+        ...state,
+        loggedIn: true,
+    }),
+    [SUCCESS_REFRESH]: (state: AuthInitialState) => ({
+        ...state,
     }),
 };
 
