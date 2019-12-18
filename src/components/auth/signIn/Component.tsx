@@ -89,7 +89,7 @@ const SignInModal = ({ signIn }: any) => {
             //         password,
             //     },
             // });
-            signIn({email, password});
+            signIn({ email, password });
         }
     };
 

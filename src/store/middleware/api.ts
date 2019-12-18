@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosInstance, AxiosResponse } from 'axios';
 
 class Api {
     axiosInstance: AxiosInstance;
@@ -8,6 +8,16 @@ class Api {
             baseURL: 'http://localhost:4000',
             timeout: 10000,
         });
+    }
+
+    signIn = async (email: string, password: string): Promise<AxiosResponse> => {
+        return await this.axiosInstance.post(
+            '/auth/signin',
+            { email, password },
+            {
+                withCredentials: true,
+            },
+        );
     }
 }
 

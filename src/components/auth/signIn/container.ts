@@ -5,17 +5,18 @@ import {
 
 // Custom imports
 import {
-    createSignInAction,
-} from '../../../store/actionsCreators/auth';
+    createFetchSignInAction,
+} from '../../../store/actionsCreators/signin';
 
 // Types imports
 import {
-    SignInCredentials,
-    AuthActions,
+    FetchSignInCredentials,
+    SigninActions,
+    FetchSignInAction,
 } from '../../../types/store/actionsCreators';
 
-const mapDispatchToProps = (dispatch: Dispatch<AuthActions>) => ({
-    signIn: ({ email, password }: SignInCredentials) => dispatch(createSignInAction({ email, password })),
+const mapDispatchToProps = (dispatch: any) => ({
+    signIn: ({ email, password }: FetchSignInCredentials) => dispatch(createFetchSignInAction({ email, password })),
 });
 
 export default connect(

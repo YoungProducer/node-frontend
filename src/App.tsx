@@ -8,14 +8,14 @@ interface IApp {
     refresh: Function;
 }
 
-const App = ({
+const App = (/*{
     loggedIn,
     me,
     refresh,
-}: IApp) => {
-    useEffect(() => {
-        me({});
-    },        [me]);
+}: IApp*/) => {
+    // useEffect(() => {
+    //     me({});
+    // },        [me]);
     // const [isAuthenticated, setAuthenticated] = useState(false);
     // const { data, loading, error } = useQuery(ME);
 
@@ -35,7 +35,7 @@ const App = ({
     // });
 
     return(
-        <Routes loggedIn={loggedIn} />
+        <Routes loggedIn={false} />
     );
 };
 
