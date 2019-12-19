@@ -1,4 +1,6 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
+import { FetchSignUpCredentials } from '../../types/store/actionsCreators/auth/signup';
+import { FetchSignInCredentials } from '../../types/store/actionsCreators';
 
 class Api {
     axiosInstance: AxiosInstance;
@@ -10,13 +12,19 @@ class Api {
         });
     }
 
-    signIn = async (email: string, password: string): Promise<AxiosResponse> => {
+    signIn = async (credentials: FetchSignInCredentials): Promise<AxiosResponse> => {
         return await this.axiosInstance.post(
             '/auth/signin',
-            { email, password },
-            {
-                withCredentials: true,
-            },
+            { ...credentials },
+            { withCredentials: true },
+        );
+    }
+
+    signUp = async(credentials: FetchSignUpCredentials): Promise<AxiosResponse> => {
+        return await this.axiosInstance.post(
+            '/auth/signup',
+            { ...credentials },
+            { withCredentials: true },
         );
     }
 }

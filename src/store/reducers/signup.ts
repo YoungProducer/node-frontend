@@ -1,57 +1,49 @@
-// import {
-//     SIGNUP,
-//     SIGNIN,
-//     ME,
-//     REFRESH,
-//     SUCCESS_SIGNIN,
-//     SUCCESS_SIGNUP,
-//     SUCCESS_ME,
-//     SUCCESS_REFRESH,
-// } from '../actionsTypes/signin';
+// Import Action types
+import {
+    SUCCESS_SIGNUP,
+    FAILURE_SIGNUP,
+    LOADING_SIGNUP,
+} from '../actionsTypes/signup';
 
-// // Import types
-// import {
-//     AuthInitialState,
-//     Handlers,
-// } from '../../types/store/reducers';
-// import {
-//     AuthActions,
-// } from '../../types/store/actionsCreators';
+// Import interfaces
+import {
+    Handlers,
+} from '../../types/store/reducers';
 
-// const INITIAL_STATE: AuthInitialState = {
-//     loggedIn: false,
-//     signedUp: false,
-// };
+import {
+    FailureAction,
+    LoadingAction,
+} from '../../types/store/actionsCreators/globalTypes';
 
-// const HANDLERS: Handlers = {
-//     [SIGNUP]: (state: AuthInitialState, action: AuthActions) => ({
-//         ...state,
-//     }),
-//     [SIGNIN]: (state: AuthInitialState, action: AuthActions) => ({
-//         ...state,
-//     }),
-//     [ME]: (state: AuthInitialState, action: AuthActions) => ({
-//         ...state,
-//     }),
-//     [REFRESH]: (state: AuthInitialState, action: AuthActions) => ({
-//         ...state,
-//     }),
-//     [SUCCESS_SIGNUP]: (state: AuthInitialState) => ({
-//         ...state,
-//         signedUp: true,
-//     }),
-//     [SUCCESS_SIGNIN]: (state: AuthInitialState) => ({
-//         ...state,
-//         loggedIn: true,
-//     }),
-//     [SUCCESS_ME]: (state: AuthInitialState) => ({
-//         ...state,
-//         loggedIn: true,
-//     }),
-//     [SUCCESS_REFRESH]: (state: AuthInitialState) => ({
-//         ...state,
-//     }),
-// };
+import {
+    SuccessSignUpAction,
+    SignUpActions,
+} from '../../types/store/actionsCreators/auth/signup';
 
-// export default (state: AuthInitialState = INITIAL_STATE, action: AuthActions) =>
-//     HANDLERS[action.type] ? HANDLERS[action.type](state, action) : state;
+interface InitialState {
+    loading: boolean;
+    email: string;
+}
+
+const INITIAL_STATE: InitialState = {
+    loading: false,
+    email: null,
+};
+
+const HANDLERS: Handlers = {
+    [SUCCESS_SIGNUP]: (state: InitialState, action: SuccessSignUpAction) => ({
+        ...state,
+        email: action.payload.email,
+    }),
+    [FAILURE_SIGNUP]: (state: InitialState, action: FailureAction) => {
+        console.log(action.payload.error);
+        return { ...state };
+    },
+    [LOADING_SIGNUP]: (state: InitialState, action: LoadingAction) => ({
+        ...state,
+        loading: action.payload.loading,
+    }),
+};
+
+export default (state: InitialState = INITIAL_STATE, action: SignUpActions) =>
+    HANDLERS[action.type] ? HANDLERS[action.type](state, action) : state;

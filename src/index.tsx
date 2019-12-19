@@ -16,7 +16,7 @@ import "./index.css";
 
 const rootElement = document.getElementById("root");
 
-const store = createStore(rootReducer, applyMiddleware(thunk));
+const store = createStore(rootReducer, applyMiddleware(thunk, loggerMiddleware));
 
 ReactDOM.render(
     <Provider store={store}>

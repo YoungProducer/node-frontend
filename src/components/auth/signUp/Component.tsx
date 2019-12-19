@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useMutation } from 'react-apollo';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import TextField from '@material-ui/core/TextField';
@@ -38,9 +38,22 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     },
 }));
 
-const SignUpModal = () => {
+interface ISignUpModal {
+    loading: boolean;
+    userEmail: string;
+    fetchSignUp: Function;
+}
+
+const SignUpModal = ({
+    loading,
+    userEmail,
+    fetchSignUp,
+}: ISignUpModal) => {
     const clasess = useStyles();
 
+    useEffect(() => {
+        console.log(userEmail);
+    },        [userEmail]);
     // const [signUp, { data, loading, error }] = useMutation(SIGN_UP, {
     //     onError: (err) => {
     //         if (err.graphQLErrors[0].message === 'Form Arguments invalid') {
@@ -92,6 +105,7 @@ const SignUpModal = () => {
             //         password,
             //     },
             // });
+            fetchSignUp({ email, password });
         }
     };
 
@@ -154,18 +168,18 @@ const SignUpModal = () => {
                 className={clasess.textField}
             />
             <Button
-                // disabled={loading}
-                // variant={loading ? 'outlined' : 'contained'}
+                disabled={loading}
+                variant={loading ? 'outlined' : 'contained'}
                 className={clasess.button}
                 color="primary"
                 onClick={send}
             >
                 Sign Up
-                {/* {loading && <CircularProgress
+                {loading && <CircularProgress
                     className={clasess.circularProgress}
                     color="primary"
                     size="30px"
-                />} */}
+                />}
             </Button>
         </div>
     );

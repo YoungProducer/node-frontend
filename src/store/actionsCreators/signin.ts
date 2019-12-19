@@ -16,10 +16,15 @@ import {
     SuccessSignInAction,
     FailureSignInCredentials,
     FailureSignInAction,
-    LoadingSignInCredentials,
-    LoadingSignInAction,
     SigninActions,
 } from '../../types/store/actionsCreators';
+
+import {
+    FailureCredentials,
+    FailureAction,
+    LoadingCredentials,
+    LoadingAction,
+} from '../../types/store/actionsCreators/globalTypes';
 
 export const createSuccessSignInAction = ({
     id,
@@ -32,14 +37,14 @@ export const createSuccessSignInAction = ({
 
 export const createFailureSignInAction = ({
     error,
-}: FailureSignInCredentials): FailureSignInAction => ({
+}: FailureCredentials): FailureAction => ({
     type: FAILURE_SIGNIN,
     payload: { error },
 });
 
 export const createLoadingSignInAction = ({
     loading,
-}: LoadingSignInCredentials): LoadingSignInAction => ({
+}: LoadingCredentials): LoadingAction => ({
     type: LOADING_SIGNIN,
     payload: { loading },
 });
@@ -48,17 +53,16 @@ export const createFetchSignInAction = ({
     email,
     password,
 }: FetchSignInCredentials) => {
-    console.log('here');
     return (dispatch: Dispatch<SigninActions>) => {
         dispatch(createLoadingSignInAction({ loading: true }));
 
-        api.signIn(email, password)
+        api.signIn({ email, password })
             .then((response: AxiosResponse) => {
                 if (response.status !== 200) {
                     throw Error(response.statusText);
                 }
 
-                dispatch(createLoadingSignInAction({ loading: true }));
+                dispatch(createLoadingSignInAction({ loading: false }));
 
                 return response;
             })

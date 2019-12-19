@@ -16,3 +16,19 @@ export interface IMeta {
 export interface IAction extends Action, ApiCredentials {
     meta?: IMeta;
 }
+
+export interface LoadingCredentials {
+    loading: boolean;
+}
+
+export interface LoadingAction extends IAction {
+    payload: LoadingCredentials;
+}
+
+export interface FailureCredentials {
+    error: object;
+}
+
+export interface FailureAction extends IAction {
+    payload: FailureCredentials;
+}

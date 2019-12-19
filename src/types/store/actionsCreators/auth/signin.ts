@@ -1,4 +1,4 @@
-import { IAction, ApiCredentials } from '../globalTypes';
+import { IAction, LoadingAction } from '../globalTypes';
 
 export interface FetchSignInCredentials {
     email: string;
@@ -25,12 +25,5 @@ export interface FailureSignInAction extends IAction {
     payload: FailureSignInCredentials;
 }
 
-export interface LoadingSignInCredentials {
-    loading: boolean;
-}
-
-export interface LoadingSignInAction extends IAction {
-    payload: LoadingSignInCredentials;
-}
-
-export type SigninActions = SuccessSignInAction | FailureSignInAction | LoadingSignInAction;
+export { LoadingAction, LoadingCredentials } from '../globalTypes';
+export type SigninActions = SuccessSignInAction | FailureSignInAction | LoadingAction;

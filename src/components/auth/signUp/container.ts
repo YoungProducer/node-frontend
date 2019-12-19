@@ -1,25 +1,33 @@
 
-// import { Dispatch } from 'redux';
-// import {
-//     connect,
-// } from 'react-redux';
+import { Dispatch, Store } from 'redux';
+import {
+    connect,
+} from 'react-redux';
 
-// // Custom imports
-// import {
-//     createSignUpAction,
-// } from '../../../store/actionsCreators/signin';
+// Custom imports
+import {
+    createFetchSignUpAction,
+} from '../../../store/actionsCreators/signup';
 
-// // Types imports
-// import {
-//     SignUpCredentials,
-//     AuthActions,
-// } from '../../../types/store/actionsCreators';
+// Types imports
+import {
+    FetchSignUpCredentials,
+} from '../../../types/store/actionsCreators/auth/signup';
 
-// const mapDispatchToProps = (dispatch: Dispatch<AuthActions>) => ({
-//     signUp: ({ email, password, userName }: SignUpCredentials) => dispatch(createSignUpAction({ email, password, userName })),
-// });
+import {
+    getLoading,
+} from '../../../store/selectors/signup';
 
-// export default connect(
-//     null,
-//     mapDispatchToProps,
-// );
+const mapStateToProps = (state: any) => ({
+    userEmail: state.signup.email,
+    loading: getLoading(state),
+});
+
+const mapDispatchToProps = (dispatch: any) => ({
+    fetchSignUp: ({ email, password, userName }: FetchSignUpCredentials) => dispatch(createFetchSignUpAction({ email, password, userName })),
+});
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps,
+);

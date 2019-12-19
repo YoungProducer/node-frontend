@@ -4,7 +4,8 @@ import {
     LOADING_SIGNIN,
 } from '../actionsTypes/signin';
 import { Handlers } from '../../types/store/reducers';
-import { SigninActions, SuccessSignInAction, FailureSignInAction, LoadingSignInAction, FetchSignInAction } from '../../types/store/actionsCreators';
+import { SigninActions, SuccessSignInAction } from '../../types/store/actionsCreators';
+import { LoadingAction, FailureAction } from '../../types/store/actionsCreators/globalTypes';
 
 interface SignInInitialState {
     loading: boolean;
@@ -30,11 +31,11 @@ const HANDLERS: Handlers = {
         userName,
         loggedIn: true,
     }),
-    [FAILURE_SIGNIN]: (state: SignInInitialState, { payload: { error } }: FailureSignInAction) => {
+    [FAILURE_SIGNIN]: (state: SignInInitialState, { payload: { error } }: FailureAction) => {
         console.log(error);
         return { ...state };
     },
-    [LOADING_SIGNIN]: (state: SignInInitialState, { payload: { loading } }: LoadingSignInAction) => ({
+    [LOADING_SIGNIN]: (state: SignInInitialState, { payload: { loading } }: LoadingAction) => ({
         ...state,
         loading,
     }),
