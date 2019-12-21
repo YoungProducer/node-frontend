@@ -1,37 +1,28 @@
-// import { Dispatch, Store } from 'redux';
-// import { connect } from 'react-redux';
+import { Dispatch, Store } from 'redux';
+import { connect } from 'react-redux';
 
 // // Custom imports
 
 // // Actions
-// import {
-//     createMeAction,
-//     createRefreshAction,
-// } from '../store/actionsCreators/signin';
-// import {
-//     AuthActions,
-//     MeCredentials,
-//     RefreshCredentials,
-// } from '../types/store/actionsCreators';
+import { createFetchMeAction } from '../store/actionsCreators/me';
+import { getLoggedIn } from '../store/selectors/signin';
+import { getEmailAfterSignUp } from '../store/selectors/signup';
+import { getMeLoading } from '../store/selectors/me';
+import { getRefreshLoading } from '../store/selectors/refresh';
 
-// // Selectors
-// import { getLoggedIn } from '../store/selectors/auth';
+import App from '../App';
 
-// // Types
-// import { AuthInitialState } from '../types/store/reducers';
+const mapStateToProps = (state: any) => ({
+    loggedIn: getLoggedIn(state.signin),
+    emailAfterSignUp: getEmailAfterSignUp(state.signup),
+    authLoading: getMeLoading(state.me) || getRefreshLoading(state.refresh),
+});
 
-// import App from '../App';
+const mapDispatchToProps = (dispatch: any) => ({
+    fetchMe: () => dispatch(createFetchMeAction()),
+});
 
-// const mapStateToProps = (state: any) => ({
-//     loggedIn: getLoggedIn(state.auth),
-// });
-
-// const mapDispatchToProps = (dispatch: Dispatch<AuthActions>) => ({
-//     me: ({}: MeCredentials) => dispatch(createMeAction({})),
-//     refresh: ({}: RefreshCredentials) => dispatch(createRefreshAction({})),
-// });
-
-// export default connect(
-//     mapStateToProps,
-//     mapDispatchToProps,
-// )(App);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(App);

@@ -15,12 +15,12 @@ import {
 } from '../../../types/store/actionsCreators/auth/signup';
 
 import {
-    getLoading,
+    getSignUpLoading,
+    getEmailAfterSignUp,
 } from '../../../store/selectors/signup';
 
 const mapStateToProps = (state: any) => ({
-    userEmail: state.signup.email,
-    loading: getLoading(state),
+    loading: getSignUpLoading(state.signup),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

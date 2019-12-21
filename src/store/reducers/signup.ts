@@ -13,37 +13,37 @@ import {
 import {
     FailureAction,
     LoadingAction,
-} from '../../types/store/actionsCreators/globalTypes';
+} from '../../types/store/actionsCreators/mainTypes';
 
 import {
     SuccessSignUpAction,
     SignUpActions,
 } from '../../types/store/actionsCreators/auth/signup';
 
-interface InitialState {
+export interface SignUpInitialState {
     loading: boolean;
     email: string;
 }
 
-const INITIAL_STATE: InitialState = {
+const INITIAL_STATE: SignUpInitialState = {
     loading: false,
     email: null,
 };
 
 const HANDLERS: Handlers = {
-    [SUCCESS_SIGNUP]: (state: InitialState, action: SuccessSignUpAction) => ({
+    [SUCCESS_SIGNUP]: (state: SignUpInitialState, action: SuccessSignUpAction) => ({
         ...state,
         email: action.payload.email,
     }),
-    [FAILURE_SIGNUP]: (state: InitialState, action: FailureAction) => {
-        console.log(action.payload.error);
+    [FAILURE_SIGNUP]: (state: SignUpInitialState, { payload: { error } }: FailureAction) => {
+        console.log(error);
         return { ...state };
     },
-    [LOADING_SIGNUP]: (state: InitialState, action: LoadingAction) => ({
+    [LOADING_SIGNUP]: (state: SignUpInitialState, action: LoadingAction) => ({
         ...state,
         loading: action.payload.loading,
     }),
 };
 
-export default (state: InitialState = INITIAL_STATE, action: SignUpActions) =>
+export default (state: SignUpInitialState = INITIAL_STATE, action: SignUpActions) =>
     HANDLERS[action.type] ? HANDLERS[action.type](state, action) : state;

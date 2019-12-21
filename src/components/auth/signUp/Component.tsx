@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useMutation } from 'react-apollo';
+import Link from '@material-ui/core/Link';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import isemail from 'isemail';
-
-import { SIGN_UP } from '../../../queries';
+import { NavLink } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
     formWrapper: {
@@ -36,41 +35,30 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     circularProgress: {
         marginLeft: 10,
     },
+    redirect: {
+        marginTop: 10,
+        textAlign: 'center',
+    },
+    link: {
+        display: 'inline-block',
+        marginLeft: 5,
+    },
 }));
 
 interface ISignUpModal {
     loading: boolean;
-    userEmail: string;
     fetchSignUp: Function;
 }
 
 const SignUpModal = ({
     loading,
-    userEmail,
     fetchSignUp,
 }: ISignUpModal) => {
     const clasess = useStyles();
 
-    useEffect(() => {
-        console.log(userEmail);
-    },        [userEmail]);
-    // const [signUp, { data, loading, error }] = useMutation(SIGN_UP, {
-    //     onError: (err) => {
-    //         if (err.graphQLErrors[0].message === 'Form Arguments invalid') {
-    //             const { invalidCredentials, invalidCredentialsMessages } = err.graphQLErrors[0].extensions;
-
-    //             setEmailInvalid(invalidCredentials.email);
-    //             setEmailInvalidMessage(invalidCredentialsMessages.email);
-
-    //             setPasswordInvalid(invalidCredentials.password);
-    //             setPasswordInvalidMessage(invalidCredentialsMessages.password || passwordInvalidMessage);
-    //         }
-    //     },
-    // });
-
-    const [email, setEmail] = useState<string>('sasha@gmail.com');
-    const [password, setPassword] = useState<string>('Sasha080701');
-    const [repeatedPassword, setRepeatedPassword] = useState<string>('Sasha080701');
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [repeatedPassword, setRepeatedPassword] = useState<string>('');
 
     const [invalidFields, setInvalidFields] = useState<boolean>(false);
     const [emailInvalid, setEmailInvalid] = useState<boolean>(false);
@@ -99,12 +87,6 @@ const SignUpModal = ({
         }
 
         if (!invalidFields) {
-            // signUp({
-            //     variables: {
-            //         email,
-            //         password,
-            //     },
-            // });
             fetchSignUp({ email, password });
         }
     };
@@ -181,6 +163,23 @@ const SignUpModal = ({
                     size="30px"
                 />}
             </Button>
+            <Typography
+                color="primary"
+                // variant="h4"
+                component="div"
+                className={clasess.redirect}
+            >
+                Already have account?
+                <NavLink to='/auth/signin'>
+                    <Link
+                        color="secondary"
+                        component="p"
+                        className={clasess.link}
+                    >
+                        Sign in!
+                    </Link>
+                </NavLink>
+            </Typography>
         </div>
     );
 };

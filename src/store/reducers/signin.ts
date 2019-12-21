@@ -2,17 +2,19 @@ import {
     SUCCESS_SIGNIN,
     FAILURE_SIGNIN,
     LOADING_SIGNIN,
+    SET_LOGGEDIN,
 } from '../actionsTypes/signin';
 import { Handlers } from '../../types/store/reducers';
-import { SigninActions, SuccessSignInAction } from '../../types/store/actionsCreators';
-import { LoadingAction, FailureAction } from '../../types/store/actionsCreators/globalTypes';
+import { SigninActions, SuccessSignInAction, SetLoggedInAction } from '../../types/store/actionsCreators';
+import { LoadingAction, FailureAction } from '../../types/store/actionsCreators/mainTypes';
 
-interface SignInInitialState {
+export interface SignInInitialState {
     loading: boolean;
     loggedIn: boolean;
     id: string;
     email: string;
     userName: string;
+    role: string;
 }
 
 const INITIAL_STATE: SignInInitialState = {
@@ -21,23 +23,37 @@ const INITIAL_STATE: SignInInitialState = {
     id: null,
     email: null,
     userName: null,
+    role: null,
 };
 
 const HANDLERS: Handlers = {
-    [SUCCESS_SIGNIN]: (state: SignInInitialState, { payload: { id, userName, email } }: SuccessSignInAction) => ({
-        ...state,
-        id,
-        email,
-        userName,
-        loggedIn: true,
-    }),
+    [SUCCESS_SIGNIN]: (state: SignInInitialState, { payload: { id, userName, email, role } }: SuccessSignInAction) => {
+        console.log(id, email, userName, role);
+        return {
+            ...state,
+            id,
+            email,
+            userName,
+            role,
+        };
+    },
     [FAILURE_SIGNIN]: (state: SignInInitialState, { payload: { error } }: FailureAction) => {
         console.log(error);
-        return { ...state };
+        return {
+            ...state,
+        };
     },
     [LOADING_SIGNIN]: (state: SignInInitialState, { payload: { loading } }: LoadingAction) => ({
         ...state,
         loading,
+    }),
+    [SET_LOGGEDIN]: (state: SignInInitialState, { payload: { loggedIn } }: SetLoggedInAction) => ({
+        ...state,
+        loggedIn,
+        id: loggedIn ? state.id : null,
+        userName: loggedIn ? state.userName : null,
+        email: loggedIn ? state.email : null,
+        role: loggedIn ? state.role : null,
     }),
 };
 

@@ -1,14 +1,11 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { useMutation } from 'react-apollo';
+import React, { useState, useEffect } from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import Link from '@material-ui/core/Link';
 import isemail from 'isemail';
-
-import { SIGN_IN } from '../../../queries';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
     formWrapper: {
@@ -39,28 +36,17 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     },
 }));
 
-const SignInModal = ({ signIn }: any) => {
+interface ISignIn {
+    loading: boolean;
+    userEmail: string;
+    signIn: Function;
+}
+
+const SignInModal = ({ signIn, loading, userEmail }: ISignIn) => {
     const clasess = useStyles();
 
-    // const [signUp, { data, loading, error }] = useMutation(SIGN_IN, {
-    //     onError: (err) => {
-    //         if (err.graphQLErrors[0].message === 'Invalid credentials') {
-    //             const { invalidCredentials, invalidCredentialsMessages } = err.graphQLErrors[0].extensions;
-
-    //             setEmailInvalid(invalidCredentials.email);
-    //             setEmailInvalidMessage(invalidCredentialsMessages.email);
-
-    //             setPasswordInvalid(invalidCredentials.password);
-    //             setPasswordInvalidMessage(invalidCredentialsMessages.password || passwordInvalidMessage);
-    //         }
-    //     },
-    //     onCompleted: (res) => {
-    //         console.log(res);
-    //     },
-    // });
-
-    const [email, setEmail] = useState<string>('sasha@gmail.com');
-    const [password, setPassword] = useState<string>('Sasha080701');
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
 
     const [invalidFields, setInvalidFields] = useState<boolean>(false);
     const [emailInvalid, setEmailInvalid] = useState<boolean>(false);
@@ -69,7 +55,10 @@ const SignInModal = ({ signIn }: any) => {
     const [emailInvalidMessage, setEmailInvalidMessage] = useState<string>('');
     const [passwordInvalidMessage, setPasswordInvalidMessage] = useState<string>('Password must be minimum 8 chars.');
 
-    console.log(signIn);
+    useEffect(() => {
+        setEmail(userEmail || '');
+    },        [userEmail]);
+
     const send = () => {
         if (!isemail.validate(email)) {
             setEmailInvalid(true);
@@ -83,12 +72,6 @@ const SignInModal = ({ signIn }: any) => {
         }
 
         if (!invalidFields) {
-            // signUp({
-            //     variables: {
-            //         email,
-            //         password,
-            //     },
-            // });
             signIn({ email, password });
         }
     };
@@ -136,18 +119,18 @@ const SignInModal = ({ signIn }: any) => {
                 className={clasess.textField}
             />
             <Button
-                // disabled={loading}
-                // variant={loading ? 'outlined' : 'contained'}
+                disabled={loading}
+                variant={loading ? 'outlined' : 'contained'}
                 className={clasess.button}
                 color="primary"
                 onClick={send}
             >
                 Sign In
-                {/* {loading && <CircularProgress
+                {loading && <CircularProgress
                     className={clasess.circularProgress}
                     color="primary"
                     size="30px"
-                />} */}
+                />}
             </Button>
         </div>
     );

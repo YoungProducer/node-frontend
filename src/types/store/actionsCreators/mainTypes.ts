@@ -1,4 +1,5 @@
 import { Action } from 'redux';
+import { AxiosError } from 'axios';
 
 export interface ApiCredentials {
     onSuccess?: Function;
@@ -26,9 +27,11 @@ export interface LoadingAction extends IAction {
 }
 
 export interface FailureCredentials {
-    error: object;
+    error: AxiosError;
 }
 
 export interface FailureAction extends IAction {
     payload: FailureCredentials;
 }
+
+export type Role = 'DEFAULT_USER' | 'ADMIN';

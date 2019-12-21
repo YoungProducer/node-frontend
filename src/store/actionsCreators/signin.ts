@@ -8,15 +8,16 @@ import {
     SUCCESS_SIGNIN,
     FAILURE_SIGNIN,
     LOADING_SIGNIN,
+    SET_LOGGEDIN,
 } from '../actionsTypes/signin';
 import {
     FetchSignInCredentials,
     FetchSignInAction,
     SuccessSignInCredentials,
     SuccessSignInAction,
-    FailureSignInCredentials,
-    FailureSignInAction,
     SigninActions,
+    SetLoggedInCredentials,
+    SetLoggedInAction,
 } from '../../types/store/actionsCreators';
 
 import {
@@ -24,15 +25,16 @@ import {
     FailureAction,
     LoadingCredentials,
     LoadingAction,
-} from '../../types/store/actionsCreators/globalTypes';
+} from '../../types/store/actionsCreators/mainTypes';
 
 export const createSuccessSignInAction = ({
     id,
     email,
     userName,
+    role,
 }: SuccessSignInCredentials): SuccessSignInAction => ({
     type: SUCCESS_SIGNIN,
-    payload: { id, email, userName },
+    payload: { id, email, userName, role },
 });
 
 export const createFailureSignInAction = ({
@@ -47,6 +49,11 @@ export const createLoadingSignInAction = ({
 }: LoadingCredentials): LoadingAction => ({
     type: LOADING_SIGNIN,
     payload: { loading },
+});
+
+export const createSetLoggedInAction = ({ loggedIn }: SetLoggedInCredentials): SetLoggedInAction => ({
+    type: SET_LOGGEDIN,
+    payload: { loggedIn },
 });
 
 export const createFetchSignInAction = ({
@@ -66,8 +73,11 @@ export const createFetchSignInAction = ({
 
                 return response;
             })
-            .then((response: AxiosResponse) => response.data.json())
-            .then((userData: SuccessSignInCredentials) => dispatch(createSuccessSignInAction({ ...userData })))
+            .then((response: AxiosResponse) => response.data)
+            .then((userData: SuccessSignInCredentials) => {
+                dispatch(createSuccessSignInAction({ ...userData }));
+                dispatch(createSetLoggedInAction({ loggedIn: true }));
+            })
             .catch((error: AxiosError) => dispatch(createFailureSignInAction({ error })));
     };
 };

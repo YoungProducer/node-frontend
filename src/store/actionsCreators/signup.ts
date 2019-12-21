@@ -27,7 +27,7 @@ import {
     FailureAction,
     LoadingCredentials,
     LoadingAction,
-} from '../../types/store/actionsCreators/globalTypes';
+} from '../../types/store/actionsCreators/mainTypes';
 
 import { AxiosResponse, AxiosError } from 'axios';
 

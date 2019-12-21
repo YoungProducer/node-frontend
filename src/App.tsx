@@ -4,38 +4,24 @@ import Routes from './components/routes';
 
 interface IApp {
     loggedIn: boolean;
-    me: Function;
-    refresh: Function;
+    emailAfterSignUp: string;
+    fetchMe: Function;
 }
 
-const App = (/*{
+const App = ({
     loggedIn,
-    me,
-    refresh,
-}: IApp*/) => {
-    // useEffect(() => {
-    //     me({});
-    // },        [me]);
-    // const [isAuthenticated, setAuthenticated] = useState(false);
-    // const { data, loading, error } = useQuery(ME);
-
-    // if (data) {
-    //     console.log(data);
-    // }
-
-    // if (error) {
-    //     console.log(error);
-    // }
-    // axios.get('http://localhost:4000/auth/me', {
-    //     withCredentials: true,
-    // }).then(response => {
-    //     console.log(response);
-    // }).catch(err => {
-    //     console.log(err);
-    // });
+    emailAfterSignUp,
+    fetchMe,
+}: IApp) => {
+    useEffect(() => {
+        fetchMe({});
+    },        [fetchMe]);
 
     return(
-        <Routes loggedIn={false} />
+        <Routes
+            loggedIn={loggedIn}
+            emailAfterSignUp={emailAfterSignUp}
+        />
     );
 };
 

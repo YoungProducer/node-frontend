@@ -1,6 +1,5 @@
-import { AuthInitialState } from '../../types/store/reducers';
+import { SignInInitialState } from '../reducers/signin';
 
-export const getLoggedIn = (state: AuthInitialState) => {
-    console.log(state);
-    return state.loggedIn;
-};
+export const getLoggedIn = (state: SignInInitialState) => state.loggedIn;
+
+export const getSignInLoading = (state: SignInInitialState) => state.loading;

@@ -1,4 +1,4 @@
-import { IAction, LoadingAction } from '../globalTypes';
+import { IAction, LoadingAction, FailureAction, Role } from '../mainTypes';
 
 export interface FetchSignInCredentials {
     email: string;
@@ -11,19 +11,20 @@ export interface SuccessSignInCredentials {
     id: string;
     email: string;
     userName: string;
+    role: Role;
 }
 
 export interface SuccessSignInAction extends IAction {
     payload: SuccessSignInCredentials;
 }
 
-export interface FailureSignInCredentials {
-    error: object;
+export interface SetLoggedInCredentials {
+    loggedIn: boolean;
 }
 
-export interface FailureSignInAction extends IAction {
-    payload: FailureSignInCredentials;
+export interface SetLoggedInAction extends IAction {
+    payload: SetLoggedInCredentials;
 }
 
-export { LoadingAction, LoadingCredentials } from '../globalTypes';
-export type SigninActions = SuccessSignInAction | FailureSignInAction | LoadingAction;
+export { LoadingAction, LoadingCredentials } from '../mainTypes';
+export type SigninActions = SuccessSignInAction | FailureAction | LoadingAction | SetLoggedInAction;

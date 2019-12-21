@@ -11,15 +11,21 @@ import {
 // Types imports
 import {
     FetchSignInCredentials,
-    SigninActions,
-    FetchSignInAction,
 } from '../../../types/store/actionsCreators';
+
+import { getSignInLoading } from '../../../store/selectors/signin';
+import { getEmailAfterSignUp } from '../../../store/selectors/signup';
+
+const mapStateToProps = (state: any) => ({
+    userEmail: getEmailAfterSignUp(state.signup),
+    loading: getSignInLoading(state.signin),
+});
 
 const mapDispatchToProps = (dispatch: any) => ({
     signIn: ({ email, password }: FetchSignInCredentials) => dispatch(createFetchSignInAction({ email, password })),
 });
 
 export default connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps,
 );
