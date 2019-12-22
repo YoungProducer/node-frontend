@@ -27,16 +27,13 @@ const INITIAL_STATE: SignInInitialState = {
 };
 
 const HANDLERS: Handlers = {
-    [SUCCESS_SIGNIN]: (state: SignInInitialState, { payload: { id, userName, email, role } }: SuccessSignInAction) => {
-        console.log(id, email, userName, role);
-        return {
-            ...state,
-            id,
-            email,
-            userName,
-            role,
-        };
-    },
+    [SUCCESS_SIGNIN]: (state: SignInInitialState, { payload: { id, email, userName, role } }: SuccessSignInAction) => ({
+        ...state,
+        id,
+        email,
+        userName,
+        role,
+    }),
     [FAILURE_SIGNIN]: (state: SignInInitialState, { payload: { error } }: FailureAction) => {
         console.log(error);
         return {

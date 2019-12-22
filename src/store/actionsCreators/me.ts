@@ -53,7 +53,7 @@ export const createFetchMeAction = () => {
             })
             .then((response: AxiosResponse) => response.data)
             .then((credentials: SuccessSignInCredentials) => {
-                dispatch(createSuccessSignInAction({ ...credentials }));
+                dispatch(createSuccessSignInAction(credentials));
                 dispatch(createSetLoggedInAction({ loggedIn: true }));
             })
             .catch((error: AxiosError) => {

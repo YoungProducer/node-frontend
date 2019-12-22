@@ -6,7 +6,6 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { ThemeProvider } from '@material-ui/core/styles';
 
-import apiMiddleware from './store/middleware/apiMiddleware';
 import loggerMiddleware from './store/middleware/loggerMiddleware';
 import rootReducer from './store/reducers';
 import theme from './theme';
