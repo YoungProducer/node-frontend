@@ -2,14 +2,15 @@ import { Dispatch } from 'redux';
 import { AxiosResponse, AxiosError } from 'axios';
 
 // Custom imports
-import api from '../middleware/api';
+import api from '../../middleware/api';
 import {
     FETCH_SIGNIN,
     SUCCESS_SIGNIN,
     FAILURE_SIGNIN,
     LOADING_SIGNIN,
     SET_LOGGEDIN,
-} from '../actionsTypes/signin';
+    SET_USER_DATA,
+} from '../../actionsTypes/auth/signin';
 import {
     FetchSignInCredentials,
     FetchSignInAction,
@@ -18,14 +19,16 @@ import {
     SigninActions,
     SetLoggedInCredentials,
     SetLoggedInAction,
-} from '../../types/store/actionsCreators';
+    SetUserDataCredentials,
+    SetUserDataAction,
+} from '../../../types/store/actionsCreators';
 
 import {
     FailureCredentials,
     FailureAction,
     LoadingCredentials,
     LoadingAction,
-} from '../../types/store/actionsCreators/mainTypes';
+} from '../../../types/store/actionsCreators/mainTypes';
 
 export const createSuccessSignInAction = ({
     id,
@@ -54,6 +57,11 @@ export const createLoadingSignInAction = ({
 export const createSetLoggedInAction = ({ loggedIn }: SetLoggedInCredentials): SetLoggedInAction => ({
     type: SET_LOGGEDIN,
     payload: { loggedIn },
+});
+
+export const createSetUserDataAction = ({ email, userName, password }: SetUserDataCredentials): SetUserDataAction => ({
+    type: SET_USER_DATA,
+    payload: { email, userName, password },
 });
 
 export const createFetchSignInAction = ({

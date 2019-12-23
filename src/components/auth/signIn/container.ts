@@ -6,15 +6,15 @@ import {
 // Custom imports
 import {
     createFetchSignInAction,
-} from '../../../store/actionsCreators/signin';
+} from '../../../store/actionsCreators/auth/signin';
 
 // Types imports
 import {
     FetchSignInCredentials,
 } from '../../../types/store/actionsCreators';
 
-import { getSignInLoading } from '../../../store/selectors/signin';
-import { getEmailAfterSignUp } from '../../../store/selectors/signup';
+import { getSignInLoading } from '../../../store/selectors/auth/signin';
+import { getEmailAfterSignUp } from '../../../store/selectors/auth/signup';
 
 const mapStateToProps = (state: any) => ({
     userEmail: getEmailAfterSignUp(state.signup),

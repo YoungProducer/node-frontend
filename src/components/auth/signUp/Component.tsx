@@ -31,6 +31,7 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     },
     button: {
         marginTop: 20,
+        width: 200,
     },
     circularProgress: {
         marginLeft: 10,

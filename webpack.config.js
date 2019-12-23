@@ -1,5 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   entry: "./src/index.tsx",
@@ -47,18 +48,24 @@ module.exports = {
         loader: "file-loader?name=fonts/[name].[ext]",
       },
       {
-        test: /\.(gif|png|jpg|svg)$/,
-        loader: "file-loader?name=/img/[name].[ext]",
-        options: {
-          // name: './img/[name].[ext]',
-          outputPath: "./img/"
-        }
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        use: [
+          'url-loader?limit=10000',
+          'img-loader'
+        ]
       }
     ]
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "./src/index.html"
-    })
+      template: "./public/index.html"
+    }),
+    new CopyPlugin([
+      {
+        from: './public/images',
+        to: './img/[name].[ext]',
+        toType: 'template'
+      }
+    ])
   ]
 };

@@ -1,6 +1,7 @@
 import axios, { AxiosInstance, AxiosResponse, AxiosError } from 'axios';
 import { FetchSignUpCredentials } from '../../types/store/actionsCreators/auth/signup';
 import { FetchSignInCredentials } from '../../types/store/actionsCreators';
+import { FetchUserCredentials } from '../../types/store/actionsCreators/update/user';
 
 class Api {
     axiosInstance: AxiosInstance;
@@ -46,6 +47,13 @@ class Api {
             '/auth/logoutall',
             {},
             { withCredentials: true })
+
+    updateUser = async(credentials: FetchUserCredentials): Promise<AxiosResponse> =>
+        await this.axiosInstance.post(
+            '/update/user',
+            { fields: credentials },
+            { withCredentials: true },
+        )
 }
 
 export default new Api();

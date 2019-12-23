@@ -27,11 +27,6 @@ const theme = createMuiTheme({
                 color: '#333',
             },
         },
-        MuiButton: {
-            root: {
-                width: 200,
-            },
-        },
     },
 });
 

@@ -7,7 +7,7 @@ import {
 // Custom imports
 import {
     createFetchSignUpAction,
-} from '../../../store/actionsCreators/signup';
+} from '../../../store/actionsCreators/auth/signup';
 
 // Types imports
 import {
@@ -17,7 +17,7 @@ import {
 import {
     getSignUpLoading,
     getEmailAfterSignUp,
-} from '../../../store/selectors/signup';
+} from '../../../store/selectors/auth/signup';
 
 const mapStateToProps = (state: any) => ({
     loading: getSignUpLoading(state.signup),

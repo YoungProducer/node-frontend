@@ -26,5 +26,15 @@ export interface SetLoggedInAction extends IAction {
     payload: SetLoggedInCredentials;
 }
 
+export interface SetUserDataCredentials {
+    email?: string;
+    userName?: string;
+    password?: string;
+}
+
+export interface SetUserDataAction extends IAction {
+    payload: SetUserDataCredentials;
+}
+
 export { LoadingAction, LoadingCredentials } from '../mainTypes';
 export type SigninActions = SuccessSignInAction | FailureAction | LoadingAction | SetLoggedInAction;

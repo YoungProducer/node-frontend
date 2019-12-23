@@ -1,10 +1,10 @@
 import {
     Handlers,
-} from '../../types/store/reducers/index';
-import { SUCCESS_ME, FAILURE_ME, LOADING_ME } from '../actionsTypes/me';
-import { LoadingAction } from '../../types/store/actionsCreators';
-import { MeActions } from '../../types/store/actionsCreators/auth/me';
-import { FailureAction } from '../../types/store/actionsCreators/mainTypes';
+} from '../../../types/store/reducers/index';
+import { SUCCESS_ME, FAILURE_ME, LOADING_ME } from '../../actionsTypes/auth/me';
+import { LoadingAction } from '../../../types/store/actionsCreators';
+import { MeActions } from '../../../types/store/actionsCreators/auth/me';
+import { FailureAction } from '../../../types/store/actionsCreators/mainTypes';
 
 export interface MeInitialState {
     loading: boolean;

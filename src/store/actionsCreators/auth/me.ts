@@ -1,25 +1,25 @@
 import { Dispatch } from 'redux';
 import { AxiosResponse, AxiosError } from 'axios';
 
-import api from '../middleware/api';
+import api from '../../middleware/api';
 
 import {
     SUCCESS_ME,
     FAILURE_ME,
     LOADING_ME,
-} from '../actionsTypes/me';
+} from '../../actionsTypes/auth/me';
 
 import {
     MeActions,
-} from '../../types/store/actionsCreators/auth/me';
+} from '../../../types/store/actionsCreators/auth/me';
 
 import {
     LoadingCredentials,
     LoadingAction,
     FailureCredentials,
     FailureAction,
-} from '../../types/store/actionsCreators/mainTypes';
-import { SuccessSignInCredentials, SuccessSignInAction } from '../../types/store/actionsCreators';
+} from '../../../types/store/actionsCreators/mainTypes';
+import { SuccessSignInCredentials, SuccessSignInAction } from '../../../types/store/actionsCreators';
 import { createSuccessSignInAction, createFailureSignInAction, createSetLoggedInAction } from './signin';
 import { createFetchRefreshAction } from './refresh';
 

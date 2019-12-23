@@ -4,11 +4,11 @@ import { connect } from 'react-redux';
 // // Custom imports
 
 // // Actions
-import { createFetchMeAction } from '../store/actionsCreators/me';
-import { getLoggedIn } from '../store/selectors/signin';
-import { getEmailAfterSignUp } from '../store/selectors/signup';
-import { getMeLoading } from '../store/selectors/me';
-import { getRefreshLoading } from '../store/selectors/refresh';
+import { createFetchMeAction } from '../store/actionsCreators/auth/me';
+import { getLoggedIn } from '../store/selectors/auth/signin';
+import { getEmailAfterSignUp } from '../store/selectors/auth/signup';
+import { getMeLoading } from '../store/selectors/auth/me';
+import { getRefreshLoading } from '../store/selectors/auth/refresh';
 
 import App from '../App';
 

@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { BrowserRouter, Route, Switch, NavLink, Redirect } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter, Route, Switch, NavLink, Redirect, HashRouter } from 'react-router-dom';
 
 import SignUpModal from '../auth/signUp';
 import SignInModal from '../auth/signIn';
@@ -12,7 +12,7 @@ interface IRoutes {
 
 const Routes = ({ loggedIn, emailAfterSignUp }: IRoutes) => {
     return (
-        <BrowserRouter>
+        <HashRouter>
             <Switch>
                 <Route path='/' exact>
                     { emailAfterSignUp !== null
@@ -33,7 +33,7 @@ const Routes = ({ loggedIn, emailAfterSignUp }: IRoutes) => {
                     { !loggedIn && <Redirect to='/' />}
                 </Route>
             </Switch>
-        </BrowserRouter>
+        </HashRouter>
     );
 };
 

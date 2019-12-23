@@ -3,10 +3,11 @@ import {
     FAILURE_SIGNIN,
     LOADING_SIGNIN,
     SET_LOGGEDIN,
-} from '../actionsTypes/signin';
-import { Handlers } from '../../types/store/reducers';
-import { SigninActions, SuccessSignInAction, SetLoggedInAction } from '../../types/store/actionsCreators';
-import { LoadingAction, FailureAction } from '../../types/store/actionsCreators/mainTypes';
+    SET_USER_DATA,
+} from '../../actionsTypes/auth/signin';
+import { Handlers } from '../../../types/store/reducers';
+import { SigninActions, SuccessSignInAction, SetLoggedInAction, SetUserDataAction } from '../../../types/store/actionsCreators';
+import { LoadingAction, FailureAction } from '../../../types/store/actionsCreators/mainTypes';
 
 export interface SignInInitialState {
     loading: boolean;
@@ -51,6 +52,10 @@ const HANDLERS: Handlers = {
         userName: loggedIn ? state.userName : null,
         email: loggedIn ? state.email : null,
         role: loggedIn ? state.role : null,
+    }),
+    [SET_USER_DATA]: (state: SignInInitialState, action: SetUserDataAction) => ({
+        ...state,
+        ...action.payload,
     }),
 };
 

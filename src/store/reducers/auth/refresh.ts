@@ -1,10 +1,10 @@
 import {
     Handlers,
-} from '../../types/store/reducers';
-import { LOADING_REFRESH, FAILURE_REFRESH } from '../actionsTypes/refresh';
-import { RefreshActions } from '../../types/store/actionsCreators/auth/refresh';
-import { LoadingAction } from '../../types/store/actionsCreators';
-import { FailureAction } from '../../types/store/actionsCreators/mainTypes';
+} from '../../../types/store/reducers';
+import { LOADING_REFRESH, FAILURE_REFRESH } from '../../actionsTypes/auth/refresh';
+import { RefreshActions } from '../../../types/store/actionsCreators/auth/refresh';
+import { LoadingAction } from '../../../types/store/actionsCreators';
+import { FailureAction } from '../../../types/store/actionsCreators/mainTypes';
 
 export interface RefreshInitialState {
     loading: boolean;

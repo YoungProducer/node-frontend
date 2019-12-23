@@ -1,8 +1,8 @@
-import { Handlers } from "../../types/store/reducers";
-import { LOADING_LOGOUT, FAILURE_LOGOUT } from "../actionsTypes/logout";
-import { LoadingAction } from "../../types/store/actionsCreators";
-import { FailureAction } from "../../types/store/actionsCreators/mainTypes";
-import { LogoutActions } from "../../types/store/actionsCreators/auth/logout";
+import { Handlers } from "../../../types/store/reducers";
+import { LOADING_LOGOUT, FAILURE_LOGOUT } from "../../actionsTypes/auth/logout";
+import { LoadingAction } from "../../../types/store/actionsCreators";
+import { FailureAction } from "../../../types/store/actionsCreators/mainTypes";
+import { LogoutActions } from "../../../types/store/actionsCreators/auth/logout";
 
 interface LogoutInitialState {
     loading: boolean;

@@ -1,11 +1,11 @@
 import { Dispatch } from 'redux';
-import { LoadingAction, LoadingCredentials, SuccessSignInCredentials } from '../../types/store/actionsCreators';
-import { LOADING_REFRESH, FAILURE_REFRESH } from '../actionsTypes/refresh';
-import { RefreshActions } from '../../types/store/actionsCreators/auth/refresh';
-import api from '../middleware/api';
+import { LoadingAction, LoadingCredentials, SuccessSignInCredentials } from '../../../types/store/actionsCreators';
+import { LOADING_REFRESH, FAILURE_REFRESH } from '../../actionsTypes/auth/refresh';
+import { RefreshActions } from '../../../types/store/actionsCreators/auth/refresh';
+import api from '../../middleware/api';
 import { AxiosResponse, AxiosError } from 'axios';
 import { createSuccessSignInAction, createFailureSignInAction, createSetLoggedInAction } from './signin';
-import { FailureAction, FailureCredentials } from '../../types/store/actionsCreators/mainTypes';
+import { FailureAction, FailureCredentials } from '../../../types/store/actionsCreators/mainTypes';
 
 export const createFailureRefreshAction = ({ error }: FailureCredentials): FailureAction => ({
     type: FAILURE_REFRESH,

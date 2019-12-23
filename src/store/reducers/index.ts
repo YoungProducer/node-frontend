@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux';
 
-import SignInReducer from './signin';
-import SignUpReducer from './signup';
-import MeReducer from './me';
-import RefreshReducer from './refresh';
-import LogoutReducer from './logout';
+import SignInReducer from './auth/signin';
+import SignUpReducer from './auth/signup';
+import MeReducer from './auth/me';
+import RefreshReducer from './auth/refresh';
+import LogoutReducer from './auth/logout';
+
+import UpdateUserReducer from './update/user';
 
 export default combineReducers({
     signin: SignInReducer,
@@ -12,4 +14,5 @@ export default combineReducers({
     me: MeReducer,
     refresh: RefreshReducer,
     logout: LogoutReducer,
+    updateUser: UpdateUserReducer,
 });

@@ -1,4 +1,4 @@
-import { SignUpInitialState } from "../reducers/signup";
+import { SignUpInitialState } from "../../reducers/auth/signup";
 
 export const getSignUpLoading = (state: SignUpInitialState) => state.loading;
 

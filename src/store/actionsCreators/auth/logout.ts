@@ -1,10 +1,10 @@
 import { Dispatch } from 'redux';
 import { AxiosResponse, AxiosError } from 'axios';
 
-import { LOADING_LOGOUT, FAILURE_LOGOUT } from '../actionsTypes/logout';
-import { FailureCredentials, FailureAction, LoadingCredentials, LoadingAction } from '../../types/store/actionsCreators/mainTypes';
-import { LogoutActions } from '../../types/store/actionsCreators/auth/logout';
-import api from '../middleware/api';
+import { LOADING_LOGOUT, FAILURE_LOGOUT } from '../../actionsTypes/auth/logout';
+import { FailureCredentials, FailureAction, LoadingCredentials, LoadingAction } from '../../../types/store/actionsCreators/mainTypes';
+import { LogoutActions } from '../../../types/store/actionsCreators/auth/logout';
+import api from '../../middleware/api';
 import { createSetLoggedInAction } from './signin';
 
 export const createLoadingLogoutAction = ({ loading }: LoadingCredentials): LoadingAction => ({

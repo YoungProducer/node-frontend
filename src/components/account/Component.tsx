@@ -3,10 +3,11 @@ import { Redirect } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
-import Avatar from '@material-ui/core/Avatar';
+import Divider from '@material-ui/core/Divider';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 import UserInfo from './userInfo';
+import UserActions from './userActions';
 import { Role } from '../../types/store/actionsCreators/mainTypes';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
@@ -20,9 +21,11 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
         padding: `5px 0 5px 0`,
     },
     userInfoContainer: {
-        // boxShadow: `0 -4px 8px 0 rgba(0, 0, 0, 0.2)`,
-        height: 400,
         marginTop: 10,
+        display: 'flex',
+        justifyContent: 'space-between',
+    },
+    userPanel: {
         padding: '10px 30px 10px 30px',
     },
 }));
@@ -57,10 +60,14 @@ const Account = ({ user, fetchLogout }: IAccount) => {
                 >
                     Account
                 </Typography>
-                <div className={classes.userInfoContainer}>
-                    <UserInfo {...user} />
+                <div className={classes.userPanel}>
+                    <div className={classes.userInfoContainer}>
+                        <UserInfo {...user} />
+                        <UserActions user={user} />
+                    </div>
+                    <Divider />
+                    <button onClick={() => fetchLogout()}><NavLink to='/'>Log out</NavLink></button>
                 </div>
-                <button onClick={() => fetchLogout()}><NavLink to='/'>Log out</NavLink></button>
             </Container>
         </React.Fragment>
     );

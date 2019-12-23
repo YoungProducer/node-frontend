@@ -3,7 +3,7 @@ import { Dispatch } from 'redux';
 // Custom imports
 
 // Api
-import api from '../middleware/api';
+import api from '../../middleware/api';
 
 // Action types
 import {
@@ -11,7 +11,7 @@ import {
     SUCCESS_SIGNUP,
     FAILURE_SIGNUP,
     LOADING_SIGNUP,
-} from '../actionsTypes/signup';
+} from '../../actionsTypes/auth/signup';
 
 // Credentials and Actions interfaces
 import {
@@ -20,14 +20,14 @@ import {
     SuccessSignUpCredentials,
     SuccessSignUpAction,
     SignUpActions,
-} from '../../types/store/actionsCreators/auth/signup';
+} from '../../../types/store/actionsCreators/auth/signup';
 
 import {
     FailureCredentials,
     FailureAction,
     LoadingCredentials,
     LoadingAction,
-} from '../../types/store/actionsCreators/mainTypes';
+} from '../../../types/store/actionsCreators/mainTypes';
 
 import { AxiosResponse, AxiosError } from 'axios';
 

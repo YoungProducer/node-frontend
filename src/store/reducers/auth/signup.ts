@@ -3,22 +3,22 @@ import {
     SUCCESS_SIGNUP,
     FAILURE_SIGNUP,
     LOADING_SIGNUP,
-} from '../actionsTypes/signup';
+} from '../../actionsTypes/auth/signup';
 
 // Import interfaces
 import {
     Handlers,
-} from '../../types/store/reducers';
+} from '../../../types/store/reducers';
 
 import {
     FailureAction,
     LoadingAction,
-} from '../../types/store/actionsCreators/mainTypes';
+} from '../../../types/store/actionsCreators/mainTypes';
 
 import {
     SuccessSignUpAction,
     SignUpActions,
-} from '../../types/store/actionsCreators/auth/signup';
+} from '../../../types/store/actionsCreators/auth/signup';
 
 export interface SignUpInitialState {
     loading: boolean;
