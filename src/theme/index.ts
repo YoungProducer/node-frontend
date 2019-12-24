@@ -16,11 +16,11 @@ const theme = createMuiTheme({
         },
     },
     overrides: {
-        MuiInputLabel: {
-            root: {
-                color: '#5e35b1',
-            },
-        },
+        // MuiInputLabel: {
+        //     root: {
+        //         color: '#5e35b1',
+        //     },
+        // },
         MuiInputBase: {
             root: {
                 width: 240,

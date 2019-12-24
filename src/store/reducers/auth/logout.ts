@@ -4,7 +4,7 @@ import { LoadingAction } from "../../../types/store/actionsCreators";
 import { FailureAction } from "../../../types/store/actionsCreators/mainTypes";
 import { LogoutActions } from "../../../types/store/actionsCreators/auth/logout";
 
-interface LogoutInitialState {
+export interface LogoutInitialState {
     loading: boolean;
 }
 

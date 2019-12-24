@@ -7,11 +7,7 @@ const mapStateToProps = (state: any) => ({
     user: getUserData(state.signin),
 });
 
-const mapDispatchToProps = (dispatch: any) => ({
-    fetchLogout: () => dispatch(createFetchLogoutAction()),
-});
-
 export default connect(
     mapStateToProps,
-    mapDispatchToProps,
+    null,
 );

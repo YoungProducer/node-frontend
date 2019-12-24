@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { NavLink } from 'react-router-dom';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -34,6 +35,14 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     },
     circularProgress: {
         marginLeft: 10,
+    },
+    redirect: {
+        marginTop: 10,
+        textAlign: 'center',
+    },
+    link: {
+        display: 'inline-block',
+        marginLeft: 5,
     },
 }));
 
@@ -133,6 +142,23 @@ const SignInModal = ({ signIn, loading, userEmail }: ISignIn) => {
                     size="30px"
                 />}
             </Button>
+            <Typography
+                color="primary"
+                // variant="h4"
+                component="div"
+                className={clasess.redirect}
+            >
+                Don't have an account?
+                <NavLink to='/auth/signup'>
+                    <Link
+                        color="secondary"
+                        component="p"
+                        className={clasess.link}
+                    >
+                        Sign up!
+                    </Link>
+                </NavLink>
+            </Typography>
         </div>
     );
 };

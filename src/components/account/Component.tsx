@@ -1,6 +1,4 @@
 import React from 'react';
-import { Redirect } from 'react-router';
-import { NavLink } from 'react-router-dom';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
@@ -39,10 +37,9 @@ export interface User {
 
 interface IAccount {
     user: User;
-    fetchLogout: Function;
 }
 
-const Account = ({ user, fetchLogout }: IAccount) => {
+const Account = ({ user }: IAccount) => {
     const classes = useStyles();
 
     return (
@@ -66,7 +63,6 @@ const Account = ({ user, fetchLogout }: IAccount) => {
                         <UserActions user={user} />
                     </div>
                     <Divider />
-                    <button onClick={() => fetchLogout()}><NavLink to='/'>Log out</NavLink></button>
                 </div>
             </Container>
         </React.Fragment>

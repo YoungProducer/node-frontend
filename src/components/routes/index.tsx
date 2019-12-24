@@ -16,8 +16,8 @@ const Routes = ({ loggedIn, emailAfterSignUp }: IRoutes) => {
             <Switch>
                 <Route path='/' exact>
                     { emailAfterSignUp !== null
-                        ? <Redirect to='/auth/signin' />
-                        : <Redirect to='/auth/signup' />}
+                        ? <Redirect to='/auth/signup' />
+                        : <Redirect to='/auth/signin' />}
                 </Route>
                 <Route path='/auth/signup' component={SignUpModal}>
                     { loggedIn

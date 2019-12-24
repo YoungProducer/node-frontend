@@ -3,13 +3,16 @@ import Menu, { MenuProps } from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
+import Grow from '@material-ui/core/Grow';
 import { makeStyles, Theme, createStyles, withStyles } from '@material-ui/core';
+
 import { User } from '../Component';
 import { FetchUserCredentials } from '../../../types/store/actionsCreators/update/user';
 
@@ -18,10 +21,10 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
         display: 'block',
     },
     button: {
-        width: 170,
+        width: 200,
     },
     hiddenButton: {
-        width: 170,
+        width: 200,
         marginTop: 15,
         marginLeft: 15,
         '&:last-child': {
@@ -32,6 +35,9 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-end',
+    },
+    circularProgress: {
+        marginLeft: 10,
     },
 }));
 
@@ -68,10 +74,13 @@ type DialogAction = 'email' | 'userName' | 'password';
 
 interface IUserActions {
     user: User;
+    userUpdateLoading: boolean;
+    logoutLoading: boolean;
     fetchUpdateUser(credentials: FetchUserCredentials): Function;
+    fetchLogout(): Function;
 }
 
-const UserActions = ({ user, fetchUpdateUser }: IUserActions) => {
+const UserActions = ({ user, userUpdateLoading, logoutLoading, fetchUpdateUser, fetchLogout }: IUserActions) => {
     const classes = useStyles();
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -80,26 +89,32 @@ const UserActions = ({ user, fetchUpdateUser }: IUserActions) => {
     const [openDialog, setOpenDialog] = useState<boolean>(false);
     const [dialogAction, setDialogAction] = useState<DialogAction>('email');
 
-    const [newEmail, setNewEmail] = useState<string>(null);
-    const [newUserName, setNewUserName] = useState<string>(null);
-    const [newPassword, setNewPassword] = useState<string>(null);
-    const [currentPassword, setCurrentPassword] = useState<string>(null);
+    const [newEmail, setNewEmail] = useState<string>('');
+    const [newUserName, setNewUserName] = useState<string>('');
+    const [newPassword, setNewPassword] = useState<string>('');
+    const [currentPassword, setCurrentPassword] = useState<string>('');
 
     useEffect(() => {
-        if (newEmail !== null
-            || newUserName !== null
-            || newPassword !== null
-            || currentPassword !== null
+        if (newEmail !== ''
+            || newUserName !== ''
+            || newPassword !== ''
+            || currentPassword !== ''
         ) {
             setHasChanges(true);
         } else setHasChanges(false);
     },        [newEmail, newUserName, newPassword, setHasChanges]);
 
+    useEffect(() => {
+        if (hasChanges && userUpdateLoading) {
+            clearFields();
+        }
+    },        [userUpdateLoading, hasChanges]);
+
     const clearFields = (): void => {
-        setNewEmail(null);
-        setNewUserName(null);
-        setNewPassword(null);
-        setCurrentPassword(null);
+        setNewEmail('');
+        setNewUserName('');
+        setNewPassword('');
+        setCurrentPassword('');
     };
 
     const handleClick = (event: React.MouseEvent<HTMLElement>) => setAnchorEl(event.currentTarget);
@@ -119,37 +134,68 @@ const UserActions = ({ user, fetchUpdateUser }: IUserActions) => {
                 >
                     Edit Profile
                 </Button>
-                { hasChanges &&
-                    <>
-                        <Button
-                            aria-controls="edit-profile-menu"
-                            aria-haspopup="true"
-                            color="secondary"
-                            variant="outlined"
-                            onClick={() => fetchUpdateUser({
+                <Grow
+                    in={hasChanges || userUpdateLoading}
+                    unmountOnExit
+                    mountOnEnter
+                >
+                    <Button
+                        color="secondary"
+                        variant="outlined"
+                        disabled={userUpdateLoading}
+                        onClick={() => {
+                            fetchUpdateUser({
                                 email: newEmail,
                                 password: newPassword,
                                 userName: newUserName,
                                 previousPassword: currentPassword,
-                            })}
-                            className={classes.hiddenButton}
-                        >
-                            Save changes
-                        </Button>
-                        <Button
-                            aria-controls="edit-profile-menu"
-                            aria-haspopup="true"
+                            });
+                        }}
+                        className={classes.hiddenButton}
+                    >
+                        Save changes
+                        { userUpdateLoading &&
+                            <CircularProgress
+                                className={classes.circularProgress}
+                                color="secondary"
+                                size="30px"
+                            />
+                        }
+                    </Button>
+                </Grow>
+                <Grow
+                    in={hasChanges || userUpdateLoading}
+                    unmountOnExit
+                    mountOnEnter
+                    {...(hasChanges ? { timeout: 1000 } : {})}
+                >
+                    <Button
+                        color="secondary"
+                        variant="outlined"
+                        onClick={() => {
+                            clearFields();
+                        }}
+                        className={classes.hiddenButton}
+                    >
+                        Cancel changes
+                    </Button>
+                </Grow>
+                <Button
+                    className={classes.hiddenButton}
+                    color="secondary"
+                    variant={logoutLoading ? 'outlined' : 'contained'}
+                    disabled={logoutLoading}
+                    onClick={() => fetchLogout()}
+                >
+                    Log out
+                    { logoutLoading &&
+                        <CircularProgress
+                            className={classes.circularProgress}
                             color="secondary"
-                            variant="outlined"
-                            onClick={() => {
-                                clearFields();
-                            }}
-                            className={classes.hiddenButton}
-                        >
-                            Cancel changes
-                        </Button>
-                    </>
-                }
+                            size="30px"
+                        />
+                    }
+                </Button>
             </div>
             <StyledMenu
                 id="edit-profile-menu"
@@ -159,6 +205,8 @@ const UserActions = ({ user, fetchUpdateUser }: IUserActions) => {
                 onClose={handleClose}
             >
                 <StyledMenuItem
+                    aria-controls="change-user-data-dialog"
+                    aria-haspopup="true"
                     onClick={() => {
                         setDialogAction('email');
                         setOpenDialog(true);
@@ -168,6 +216,8 @@ const UserActions = ({ user, fetchUpdateUser }: IUserActions) => {
                     Change email
                 </StyledMenuItem>
                 <StyledMenuItem
+                    aria-controls="change-user-data-dialog"
+                    aria-haspopup="true"
                     onClick={() => {
                         setDialogAction('userName');
                         setOpenDialog(true);
@@ -177,6 +227,8 @@ const UserActions = ({ user, fetchUpdateUser }: IUserActions) => {
                     Change userName
                 </StyledMenuItem>
                 <StyledMenuItem
+                    aria-controls="change-user-data-dialog"
+                    aria-haspopup="true"
                     onClick={() => {
                         setDialogAction('password');
                         setOpenDialog(true);
@@ -186,7 +238,7 @@ const UserActions = ({ user, fetchUpdateUser }: IUserActions) => {
                     Change password
                 </StyledMenuItem>
             </StyledMenu>
-            <Dialog open={openDialog} onClose={() => setOpenDialog(false)} aria-labelledby="change-user-data-title">
+            <Dialog open={openDialog} onClose={() => setOpenDialog(false)} aria-labelledby="change-user-data-title" id="change-user-data-dialog">
                 <DialogTitle
                     id="change-user-data-title"
                 >
@@ -206,7 +258,7 @@ const UserActions = ({ user, fetchUpdateUser }: IUserActions) => {
                     <TextField
                         className={classes.textField}
                         color="secondary"
-                        autoFocus
+                        autoFocus={dialogAction !== 'password'}
                         id={dialogAction}
                         label={dialogAction[0].toUpperCase() + dialogAction.slice(1, dialogAction.length)}
                         type={dialogAction === 'email'

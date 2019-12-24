@@ -170,7 +170,7 @@ const SignUpModal = ({
                 component="div"
                 className={clasess.redirect}
             >
-                Already have account?
+                Already have an account?
                 <NavLink to='/auth/signin'>
                     <Link
                         color="secondary"
