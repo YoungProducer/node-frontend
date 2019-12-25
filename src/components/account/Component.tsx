@@ -6,6 +6,7 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 import UserInfo from './userInfo';
 import UserActions from './userActions';
+import AccountContent from './accountContent';
 import { Role } from '../../types/store/actionsCreators/mainTypes';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
@@ -63,6 +64,7 @@ const Account = ({ user }: IAccount) => {
                         <UserActions user={user} />
                     </div>
                     <Divider />
+                    <AccountContent />
                 </div>
             </Container>
         </React.Fragment>

@@ -8,6 +8,8 @@ import LogoutReducer from './auth/logout';
 
 import UpdateUserReducer from './update/user';
 
+import UsersSearchResult from './users/searchResult';
+
 export default combineReducers({
     signin: SignInReducer,
     signup: SignUpReducer,
@@ -15,4 +17,5 @@ export default combineReducers({
     refresh: RefreshReducer,
     logout: LogoutReducer,
     updateUser: UpdateUserReducer,
+    usersSearchResult: UsersSearchResult,
 });

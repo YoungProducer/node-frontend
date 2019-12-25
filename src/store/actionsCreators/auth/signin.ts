@@ -59,9 +59,9 @@ export const createSetLoggedInAction = ({ loggedIn }: SetLoggedInCredentials): S
     payload: { loggedIn },
 });
 
-export const createSetUserDataAction = ({ email, userName, password }: SetUserDataCredentials): SetUserDataAction => ({
+export const createSetUserDataAction = ({ email, userName }: SetUserDataCredentials): SetUserDataAction => ({
     type: SET_USER_DATA,
-    payload: { email, userName, password },
+    payload: { email, userName },
 });
 
 export const createFetchSignInAction = ({

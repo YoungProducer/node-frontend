@@ -2,6 +2,7 @@ import axios, { AxiosInstance, AxiosResponse, AxiosError } from 'axios';
 import { FetchSignUpCredentials } from '../../types/store/actionsCreators/auth/signup';
 import { FetchSignInCredentials } from '../../types/store/actionsCreators';
 import { FetchUserCredentials } from '../../types/store/actionsCreators/update/user';
+import { FetchFindUserByEmailCredentials } from '../../types/store/actionsCreators/users/findByEmail';
 
 class Api {
     axiosInstance: AxiosInstance;
@@ -53,6 +54,14 @@ class Api {
             '/update/user',
             { fields: credentials },
             { withCredentials: true },
+        )
+
+    findUserByEmail = async({ email }: FetchFindUserByEmailCredentials) =>
+        await this.axiosInstance.get(
+            `/users/findByEmail/?filter=${email}`,
+            {
+                withCredentials: true,
+            },
         )
 }
 

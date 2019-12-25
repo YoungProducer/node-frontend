@@ -29,7 +29,6 @@ export interface SetLoggedInAction extends IAction {
 export interface SetUserDataCredentials {
     email?: string;
     userName?: string;
-    password?: string;
 }
 
 export interface SetUserDataAction extends IAction {
