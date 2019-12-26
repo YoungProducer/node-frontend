@@ -28,6 +28,11 @@ const theme = createMuiTheme({
             },
         },
     },
+    typography: {
+        h5: {
+            fontSize: '1rem',
+        },
+    },
 });
 
 export default theme;

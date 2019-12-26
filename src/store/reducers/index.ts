@@ -7,8 +7,10 @@ import RefreshReducer from './auth/refresh';
 import LogoutReducer from './auth/logout';
 
 import UpdateUserReducer from './update/user';
+import UpdateUserRootsReducer from './update/userRoots';
 
-import UsersSearchResult from './users/searchResult';
+import UsersSearchResultReducer from './users/searchResult';
+import FindUserByEmailReducer from './users/findByEmail';
 
 export default combineReducers({
     signin: SignInReducer,
@@ -17,5 +19,7 @@ export default combineReducers({
     refresh: RefreshReducer,
     logout: LogoutReducer,
     updateUser: UpdateUserReducer,
-    usersSearchResult: UsersSearchResult,
+    updateUserRoots: UpdateUserRootsReducer,
+    usersSearchResult: UsersSearchResultReducer,
+    findUserByEmail: FindUserByEmailReducer,
 });

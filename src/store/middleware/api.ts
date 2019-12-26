@@ -3,6 +3,7 @@ import { FetchSignUpCredentials } from '../../types/store/actionsCreators/auth/s
 import { FetchSignInCredentials } from '../../types/store/actionsCreators';
 import { FetchUserCredentials } from '../../types/store/actionsCreators/update/user';
 import { FetchFindUserByEmailCredentials } from '../../types/store/actionsCreators/users/findByEmail';
+import { FetchUpdateUserRootsCredentials } from '../../types/store/actionsCreators/update/userRoot';
 
 class Api {
     axiosInstance: AxiosInstance;
@@ -62,6 +63,15 @@ class Api {
             {
                 withCredentials: true,
             },
+        )
+
+    updateUserRoots = async(credentials: FetchUpdateUserRootsCredentials) =>
+        await this.axiosInstance.patch(
+            '/update/user/roots',
+            {
+                data: credentials,
+            },
+            { withCredentials: true },
         )
 }
 

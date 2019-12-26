@@ -6,6 +6,7 @@ import Box from '@material-ui/core/Box';
 
 import { User } from '../../Component';
 import AdminSearch from './adminSearch';
+import { Divider } from '@material-ui/core';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -56,13 +57,14 @@ const ActionsTabs = ({ user }: ActionsTabsProps) => {
                     {...a11yProps(0)}
                 />}
             </Tabs>
-            <TabPanel
-                value={value}
-                index={0}
-            >
-                Admin panel
-                <AdminSearch />
-            </TabPanel>
+            { user.role === 'ADMIN' &&
+                <TabPanel
+                    value={value}
+                    index={0}
+                >
+                    <AdminSearch />
+                </TabPanel>
+            }
         </>
     );
 };

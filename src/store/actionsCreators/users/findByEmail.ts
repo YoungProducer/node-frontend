@@ -34,7 +34,6 @@ export const createFetchFindUserByEmail = (email: string) =>
 
         api.findUserByEmail({ email })
             .then((response: AxiosResponse) => {
-                console.log(response);
                 if (response.status !== 200) {
                     throw new Error(response.statusText);
                 }
@@ -44,9 +43,6 @@ export const createFetchFindUserByEmail = (email: string) =>
                 return response;
             })
             .then((response: AxiosResponse) => response.data)
-            .then((users: SetSearchUserResultCredentials[]) => {
-                console.log(users);
-                dispatch(createSetSearchUserResultAction(users));
-            })
+            .then((users: SetSearchUserResultCredentials[]) => dispatch(createSetSearchUserResultAction(users)))
             .catch((error: AxiosError) => dispatch(createFailureFindUserByEmailAction({ error })));
     };
